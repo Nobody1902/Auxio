@@ -88,6 +88,20 @@ class HomeSettingsImpl @Inject constructor(@ApplicationContext context: Context)
                 remove(OLD_KEY_LIB_TABS)
             }
         }
+
+        // Migration: ensure LYRICS tab is present in the tab sequence
+        val tabsKey = getString(R.string.set_key_home_tabs)
+        if (sharedPreferences.contains(tabsKey)) {
+            val currentTabs =
+                Tab.fromIntCode(sharedPreferences.getInt(tabsKey, Tab.SEQUENCE_DEFAULT))
+            if (currentTabs != null && currentTabs.none { it.type == MusicType.LYRICS }) {
+                L.d("Adding LYRICS tab to existing tab configuration")
+                val newTabs = currentTabs + Tab.Visible(MusicType.LYRICS)
+                sharedPreferences.edit {
+                    putInt(tabsKey, Tab.toIntCode(newTabs))
+                }
+            }
+        }
     }
 
     override fun onSettingChanged(key: String, listener: HomeSettings.Listener) {

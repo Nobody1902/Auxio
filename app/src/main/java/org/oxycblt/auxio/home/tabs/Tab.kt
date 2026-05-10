@@ -58,13 +58,13 @@ sealed class Tab(open val type: MusicType) {
         // MusicMode for this tab.
 
         /** The maximum index that a well-formed tab sequence should be. */
-        const val MAX_SEQUENCE_IDX = 4
+        const val MAX_SEQUENCE_IDX = 5
 
         /**
-         * The default tab sequence, in integer form. This represents a set of four visible tabs
-         * ordered as "Song", "Album", "Artist", "Genre", and "Playlists
+         * The default tab sequence, in integer form. This represents a set of visible tabs
+         * ordered as "Song", "Album", "Artist", "Genre", "Playlists", and "Lyrics"
          */
-        const val SEQUENCE_DEFAULT = 0b1000_1001_1010_1011_1100
+        const val SEQUENCE_DEFAULT = 0b1000_1001_1010_1011_1100_1101
 
         /** Maps between the integer code in the tab sequence and it's [MusicType]. */
         private val MODE_TABLE =
@@ -74,6 +74,7 @@ sealed class Tab(open val type: MusicType) {
                 MusicType.ARTISTS,
                 MusicType.GENRES,
                 MusicType.PLAYLISTS,
+                MusicType.LYRICS,
             )
 
         /**
@@ -131,8 +132,9 @@ sealed class Tab(open val type: MusicType) {
                     }
             }
 
-            // Make sure there are no duplicate tabs
-            val distinct = tabs.distinctBy { it.type }
+            // Make sure there are no duplicate tabs (preferring the later occurrence,
+            // which handles old format values that have a zero-padded leading entry)
+            val distinct = tabs.reversed().distinctBy { it.type }.reversed()
             if (tabs.size != distinct.size) {
                 L.w(
                     "Tab sequences should not have duplicates [old: ${tabs.size} new: ${distinct.size}]"

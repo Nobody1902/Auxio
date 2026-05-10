@@ -101,8 +101,11 @@ class MainFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        L.d("MainFragment: onCreate at ${System.currentTimeMillis()}")
         enterTransition = MaterialFadeThrough()
         exitTransition = MaterialFadeThrough()
+        // Disable reenter transition to fix slow lyrics closing
+        reenterTransition = null
     }
 
     override fun onCreateBinding(inflater: LayoutInflater) = FragmentMainBinding.inflate(inflater)
@@ -221,6 +224,7 @@ class MainFragment :
 
     override fun onStart() {
         super.onStart()
+        L.d("MainFragment: onStart at ${System.currentTimeMillis()}")
         val binding = requireBinding()
         // Once we add the destination change callback, we will receive another initialization call,
         // so handle that by resetting the flag.
@@ -233,6 +237,7 @@ class MainFragment :
 
     override fun onResume() {
         super.onResume()
+        L.d("MainFragment: onResume at ${System.currentTimeMillis()}")
         // Override the back pressed listener so we can map back navigation to collapsing
         // navigation, navigation out of detail views, etc. We have to do this here in
         // onResume or otherwise the FragmentManager will have precedence.
@@ -246,6 +251,7 @@ class MainFragment :
 
     override fun onStop() {
         super.onStop()
+        L.d("MainFragment: onStop at ${System.currentTimeMillis()}")
         val binding = requireBinding()
         requireNotNull(navigationListener) { "NavigationListener was not available" }
             .release(binding.exploreNavHost.findNavController())
@@ -452,7 +458,9 @@ class MainFragment :
             L.d("Hiding fab: [empty: ${songs.isEmpty()} scrolling: $isFastScrolling]")
             forceHideAllFabs()
         } else {
-            if (tabType != MusicType.PLAYLISTS) {
+            if (tabType == MusicType.LYRICS) {
+                forceHideAllFabs()
+            } else if (tabType != MusicType.PLAYLISTS) {
                 if (binding.homeShuffleFab.isOrWillBeShown) {
                     return
                 }

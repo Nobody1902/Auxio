@@ -571,6 +571,6 @@
     <dialog
         android:id="@+id/music_locations_dialog"
         android:name="org.oxycblt.auxio.music.locations.LocationsDialog"
-        android:label="music_locations_dialog"
-        tools:layout="@layout/dialog_music_locations" />
+        android:label="music_locations_dialog" />
+
 </navigation>

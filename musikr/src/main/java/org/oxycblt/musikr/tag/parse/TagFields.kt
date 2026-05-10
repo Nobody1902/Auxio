@@ -237,7 +237,16 @@ internal fun Metadata.albumArtistSortNames() =
         ?: id3v2["TXXX:ALBUM ARTIST SORT"])
 
 // Genre
-internal fun Metadata.genreNames() = xiph["GENRE"] ?: mp4["©gen"] ?: mp4["gnre"] ?: id3v2["TCON"]
+internal fun Metadata.genreNames() = xiph["GENRE"] ?: mp4["©gen"] ?: mp4["gnre"] ?: id3v2["TCON"] 
+
+// Lyrics (embedded in audio file)
+fun Metadata.lyrics(): String? =
+    (xiph["LYRICS"]
+        ?: mp4["©lyr"]
+        ?: id3v2["USLT"]
+        ?: id3v2["LYRICS"])
+        ?.first()
+        ?.takeIf { it.isNotBlank() }
 
 // Compilation Flag
 internal fun Metadata.isCompilation() =

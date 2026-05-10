@@ -43,11 +43,19 @@ constructor(context: Context, attrs: AttributeSet? = null, @AttrRes defStyleAttr
     var onSwipeListener: OnSwipeListener? = null
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
+        // Only intercept touches if this view is clickable
+        if (!isClickable) {
+            return false
+        }
         return gestureDetector.onTouchEvent(event)
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Only process gestures if this view is clickable, otherwise let parent handle it
+        if (!isClickable) {
+            return false
+        }
         return gestureDetector.onTouchEvent(event) || super.onTouchEvent(event)
     }
 

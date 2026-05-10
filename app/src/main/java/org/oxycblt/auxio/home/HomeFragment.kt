@@ -47,6 +47,7 @@ import org.oxycblt.auxio.detail.Show
 import org.oxycblt.auxio.home.list.AlbumListFragment
 import org.oxycblt.auxio.home.list.ArtistListFragment
 import org.oxycblt.auxio.home.list.GenreListFragment
+import org.oxycblt.auxio.home.list.LyricsListFragment
 import org.oxycblt.auxio.home.list.PlaylistListFragment
 import org.oxycblt.auxio.home.list.SongListFragment
 import org.oxycblt.auxio.home.tabs.NamedTabStrategy
@@ -216,15 +217,19 @@ class HomeFragment : SelectionFragment<FragmentHomeBinding>() {
             // Handle sort menu
             R.id.action_sort -> {
                 // Junk click event when opening the menu
+                val currentTab = homeModel.currentTabType.value
                 val directions =
-                    when (homeModel.currentTabType.value) {
+                    when (currentTab) {
                         MusicType.SONGS -> HomeFragmentDirections.sortSongs()
                         MusicType.ALBUMS -> HomeFragmentDirections.sortAlbums()
                         MusicType.ARTISTS -> HomeFragmentDirections.sortArtists()
                         MusicType.GENRES -> HomeFragmentDirections.sortGenres()
                         MusicType.PLAYLISTS -> HomeFragmentDirections.sortPlaylists()
+                        MusicType.LYRICS -> null
                     }
-                findNavController().navigateSafe(directions)
+                if (directions != null) {
+                    findNavController().navigateSafe(directions)
+                }
                 true
             }
             else -> {
@@ -275,6 +280,7 @@ class HomeFragment : SelectionFragment<FragmentHomeBinding>() {
                 MusicType.ARTISTS -> R.id.home_artist_recycler
                 MusicType.GENRES -> R.id.home_genre_recycler
                 MusicType.PLAYLISTS -> R.id.home_playlist_recycler
+                MusicType.LYRICS -> R.id.lyrics_scroll
             }
     }
 
@@ -497,6 +503,7 @@ class HomeFragment : SelectionFragment<FragmentHomeBinding>() {
                 MusicType.ARTISTS -> ArtistListFragment()
                 MusicType.GENRES -> GenreListFragment()
                 MusicType.PLAYLISTS -> PlaylistListFragment()
+                MusicType.LYRICS -> LyricsListFragment()
             }
     }
 

@@ -624,6 +624,7 @@ constructor(
             L.d("Already opening $existing, ignoring opening $panel")
             return
         }
+        L.d("Opening panel: $panel")
         _openPanel.put(panel)
     }
 }

@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.oxycblt.musikr.fs.File
 
-internal interface MetadataExtractor {
+interface MetadataExtractor {
     suspend fun extract(deviceFile: File): MetadataResult
 
     companion object {

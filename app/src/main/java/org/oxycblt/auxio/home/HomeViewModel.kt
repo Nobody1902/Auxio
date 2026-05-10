@@ -202,6 +202,9 @@ constructor(
                 _playlistInstructions.put(instructions)
                 _playlistList.value = homeGenerator.playlists()
             }
+            MusicType.LYRICS -> {
+                // No list data needed for lyrics tab
+            }
         }
     }
 

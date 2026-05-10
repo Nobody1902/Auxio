@@ -21,6 +21,7 @@ package org.oxycblt.auxio.ui
 import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import timber.log.Timber as L
 
 /**
  * A [NavController.OnDestinationChangedListener] that will call [callback] when moving between
@@ -69,10 +70,13 @@ class DialogAwareNavigationListener(private val callback: () -> Unit) :
         val lastDestination = currentDestination
         currentDestination = destination
         if (lastDestination == null) {
+            L.d("DialogAwareNavigationListener: Initial destination, ignoring")
             return
         }
 
+        L.d("DialogAwareNavigationListener: onDestinationChanged from ${lastDestination.label} to ${destination.label} at ${System.currentTimeMillis()}")
         if (!lastDestination.isDialog() && !destination.isDialog()) {
+            L.d("DialogAwareNavigationListener: Calling callback")
             callback()
         }
     }

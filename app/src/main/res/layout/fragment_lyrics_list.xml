@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Blurred cover background -->
+    <ImageView
+        android:id="@+id/lyrics_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <!-- Gradient fade from app background at top to transparent -->
+    <View
+        android:id="@+id/lyrics_gradient"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Lyrics (scrollable) -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/lyrics_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="80dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/spacing_large">
+
+            <!-- No song selected message -->
+            <TextView
+                android:id="@+id/lyrics_no_song"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/def_playback"
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+            <!-- No lyrics found message -->
+            <TextView
+                android:id="@+id/lyrics_no_lyrics"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="No lyrics found"
+                android:textSize="20sp"
+                android:textColor="#888888"
+                android:visibility="gone" />
+
+            <!-- Lyrics container -->
+            <LinearLayout
+                android:id="@+id/lyrics_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Follow toggle -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/lyrics_follow_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:checkable="true"
+        android:checked="true"
+        android:text="Following"
+        android:textColor="@android:color/white"
+        app:backgroundTint="#B3000000"
+        app:cornerRadius="20dp"
+        style="?attr/materialButtonOutlinedStyle" />
+
+</FrameLayout>
